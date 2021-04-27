@@ -12,4 +12,14 @@ export default new class CompanyData {
         password: data.password
       })
   }
+
+  searchCnpj (cnpj: number) {
+    return dbActions('company')
+      .where('cnpj', cnpj)
+  }
+
+  searchEmailCompany (email: string) {
+    return dbActions('company')
+      .where('email', email)
+  }
 }()

@@ -6,6 +6,4 @@ interface ICreateCompanyServices{
     password: string
 }
 
-export {
-  ICreateCompanyServices
-}
+export { ICreateCompanyServices }

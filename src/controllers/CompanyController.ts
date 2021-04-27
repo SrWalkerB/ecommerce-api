@@ -13,6 +13,10 @@ export default new class CompanyController {
         password
       })
 
+      if (create.err) {
+        return resp.status(400).json({ err: create.err })
+      }
+
       return resp.status(201).json({ msg: create.msg })
     } catch (error) {
       console.log(error)
