@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
+import crypto from 'crypto'
 import CompanyData from '../../data/company/CompanyData'
 import { ICreateCompanyServices } from './CompanyDTO'
+import UserServices from '../users/UserServices'
 
 class CompanyServices {
   async createCompany (data: ICreateCompanyServices) {
@@ -11,12 +13,23 @@ class CompanyServices {
       return { err: resultSearch.err }
     }
 
-    await CompanyData.createCompany({
-      id: uuidv4(),
-      name: data.name,
-      cpnj: data.cnpj,
+    const id = `${uuidv4()}-${crypto.randomBytes(16).toString('hex')}`
+
+    const createUser = await UserServices.createUser({
+      id: id,
+      type: 'pj',
       email: data.email,
       password: bcrypt.hashSync(data.password, 8)
+    })
+
+    if (createUser?.err) {
+      return { err: createUser.err }
+    }
+
+    await CompanyData.createCompany({
+      id: id,
+      name: data.name,
+      cpnj: data.cnpj
     })
 
     return { msg: 'create' }
@@ -24,7 +37,6 @@ class CompanyServices {
 
   async verificationCompany (cnpj: number, email: string) {
     const verifyCnpj = await CompanyData.searchCnpj(cnpj)
-    const verifyemail = await CompanyData.searchEmailCompany(email)
 
     if (cnpj.toString().length !== 11) {
       return { err: 'cnpj need have 11 digits' }
@@ -32,10 +44,6 @@ class CompanyServices {
 
     if (verifyCnpj.length !== 0) {
       return { err: 'cnpj already create' }
-    }
-
-    if (verifyemail.length !== 0) {
-      return { err: 'email already create' }
     }
 
     return { msg: 'validate' }
