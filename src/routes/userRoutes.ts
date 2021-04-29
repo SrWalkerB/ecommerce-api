@@ -8,4 +8,6 @@ userRoutes.post('/auth', UserControllers.loginAccount)
 
 userRoutes.get('/profile', autenticate.autenticate, UserControllers.myProfile)
 
+userRoutes.post('/profile/address', autenticate.autenticate, UserControllers.createAddress)
+
 export default userRoutes

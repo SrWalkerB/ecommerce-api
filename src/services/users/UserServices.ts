@@ -1,8 +1,10 @@
 import bcrypt from 'bcrypt'
+import AddressData from '../../data/address/AddressData'
 import CompanyData from '../../data/company/CompanyData'
 import UserData from '../../data/users/UserData'
 import { ICreateUserData } from '../../data/users/UserDataDTO'
 import TokenOptions from '../../utils/TokenOptions'
+import { ICreateAddressServices } from './UserDTO'
 
 export default new class UserServices {
   async createUser (data: ICreateUserData) {
@@ -65,12 +67,23 @@ export default new class UserServices {
     switch (type) {
       case 'pj': {
         const [{ name, cnpj }] = await CompanyData.searchId(idUser)
+        const [{ cep, street, neighborhood, number, city, state, coutry }] = await AddressData.searchAddress(idUser)
+
         user = {
           id_user: idUser,
           name: name,
           cnpj: cnpj,
           email: email,
-          type: type
+          type: type,
+          address: {
+            cep: cep,
+            street: street,
+            neighborhood: neighborhood,
+            number: number,
+            city: city,
+            state: state,
+            coutry
+          }
         }
         break
       }
@@ -85,5 +98,27 @@ export default new class UserServices {
     }
 
     return { msg: user }
+  }
+
+  async createAddress (token: string, data: ICreateAddressServices) {
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchAddress = await AddressData.searchAddress(id)
+
+    if (searchAddress.length !== 0) {
+      return { err: 'address already create' }
+    }
+
+    await AddressData.createAddress({
+      id: id,
+      cep: data.cep,
+      street: data.street,
+      number: data.number,
+      neighborhood: data.neighborhood,
+      city: data.city,
+      state: data.state,
+      coutry: data.coutry
+    })
+
+    return { msg: 'adding address' }
   }
 }()
