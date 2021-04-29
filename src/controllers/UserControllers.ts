@@ -18,4 +18,17 @@ export default new class UserControllers {
       return resp.status(500).json({ err: 'err not expect' })
     }
   }
+
+  async myProfile (req: Request, resp: Response) {
+    try {
+      const token = req.header('Authorization')
+
+      const profile = await UserServices.myProfile(token!)
+
+      return resp.status(200).json(profile.msg)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ err: 'err not expect' })
+    }
+  }
 }()

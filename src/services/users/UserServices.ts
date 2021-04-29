@@ -52,4 +52,8 @@ export default new class UserServices {
 
     return { token: token }
   }
+
+  async myProfile (token: string) {
+    return { msg: token }
+  }
 }()
