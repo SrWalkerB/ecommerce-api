@@ -16,4 +16,9 @@ export default new class UserData {
     return dbActions('users')
       .where('email', email)
   }
+
+  searchId (id: string) {
+    return dbActions('users')
+      .where('id_user', id)
+  }
 }()

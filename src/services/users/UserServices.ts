@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import CompanyData from '../../data/company/CompanyData'
 import UserData from '../../data/users/UserData'
 import { ICreateUserData } from '../../data/users/UserDataDTO'
 import TokenOptions from '../../utils/TokenOptions'
@@ -54,6 +55,35 @@ export default new class UserServices {
   }
 
   async myProfile (token: string) {
-    return { msg: token }
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchUser = await UserData.searchId(id)
+
+    const [{ id_user: idUser, email, type }] = searchUser
+
+    let user = {}
+
+    switch (type) {
+      case 'pj': {
+        const [{ name, cnpj }] = await CompanyData.searchId(idUser)
+        user = {
+          id_user: idUser,
+          name: name,
+          cnpj: cnpj,
+          email: email,
+          type: type
+        }
+        break
+      }
+
+      case 'client': {
+        user = {
+          id: idUser,
+          email: email,
+          type: type
+        }
+      }
+    }
+
+    return { msg: user }
   }
 }()

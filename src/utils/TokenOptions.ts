@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import jwt from 'jsonwebtoken'
 
 export default new class TokenOptions {
@@ -13,5 +14,9 @@ export default new class TokenOptions {
 
       return { msg: decoded }
     })
+  }
+
+  removeBearer (req: Request) {
+    return req.header('Authorization')?.replace('Bearer ', '')
   }
 }()

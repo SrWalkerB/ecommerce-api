@@ -15,4 +15,9 @@ export default new class CompanyData {
     return dbActions('company')
       .where('cnpj', cnpj)
   }
+
+  searchId (id: string) {
+    return dbActions('company')
+      .where('id_company', id)
+  }
 }()

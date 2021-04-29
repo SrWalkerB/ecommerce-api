@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import UserServices from '../services/users/UserServices'
+import TokenOptions from '../utils/TokenOptions'
 
 export default new class UserControllers {
   async loginAccount (req: Request, resp: Response) {
@@ -21,7 +22,7 @@ export default new class UserControllers {
 
   async myProfile (req: Request, resp: Response) {
     try {
-      const token = req.header('Authorization')
+      const token = TokenOptions.removeBearer(req)
 
       const profile = await UserServices.myProfile(token!)
 
