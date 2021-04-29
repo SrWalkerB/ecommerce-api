@@ -32,4 +32,30 @@ export default new class UserControllers {
       return resp.status(500).json({ err: 'err not expect' })
     }
   }
+
+  async createAddress (req: Request, resp: Response) {
+    try {
+      const token = TokenOptions.removeBearer(req)
+      const { cep, street, neighborhood, number, city, state, coutry } = req.body
+
+      const address = await UserServices.createAddress(token!, {
+        cep,
+        street,
+        neighborhood,
+        number,
+        city,
+        state,
+        coutry
+      })
+
+      if (address.err) {
+        return resp.status(400).json({ err: address.err })
+      }
+
+      return resp.status(201).json(address)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ err: 'err not expect' })
+    }
+  }
 }()

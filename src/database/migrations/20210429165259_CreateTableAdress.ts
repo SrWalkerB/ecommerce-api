@@ -8,6 +8,9 @@ export async function up (knex: Knex): Promise<void> {
       .inTable('users')
       .notNullable()
 
+    table.integer('cep', 8)
+      .notNullable()
+
     table.string('street', 50)
       .notNullable()
 
@@ -24,6 +27,10 @@ export async function up (knex: Knex): Promise<void> {
       .notNullable()
 
     table.string('coutry', 50)
+      .notNullable()
+
+    table.timestamp('created_At')
+      .defaultTo(dbActions.fn.now())
       .notNullable()
   })
 }
