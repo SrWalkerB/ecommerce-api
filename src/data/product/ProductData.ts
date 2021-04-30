@@ -8,6 +8,12 @@ export default new class ProductData {
       .where('id_company', idCompany)
   }
 
+  searchProductName (idCompany: string, name: string) {
+    return dbActions('product')
+      .where('id_company', idCompany)
+      .where('name', name)
+  }
+
   listAllProduct (idCompany: string) {
     return dbActions('product')
       .where('id_company', idCompany)
