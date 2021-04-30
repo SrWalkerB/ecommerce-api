@@ -21,4 +21,10 @@ export default new class UserData {
     return dbActions('users')
       .where('id_user', id)
   }
+
+  deleteUserId (id: string) {
+    return dbActions('users')
+      .where('id_user', id)
+      .del()
+  }
 }()

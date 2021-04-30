@@ -60,6 +60,10 @@ export default new class UserServices {
     const { id } = TokenOptions.verifyToken(token).msg
     const searchUser = await UserData.searchId(id)
 
+    if (searchUser.length === 0) {
+      return { err: 'user not found' }
+    }
+
     const [{ id_user: idUser, email, type }] = searchUser
 
     let user = {}
@@ -120,5 +124,18 @@ export default new class UserServices {
     })
 
     return { msg: 'adding address' }
+  }
+
+  async deleteUser (token: string) {
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchUser = await UserData.searchId(id)
+
+    if (searchUser.length === 0) {
+      return { err: 'user not found' }
+    }
+
+    await UserData.deleteUserId(id)
+
+    return { msg: 'delete User' }
   }
 }()

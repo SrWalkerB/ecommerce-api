@@ -10,4 +10,6 @@ userRoutes.get('/profile', autenticate.autenticate, UserControllers.myProfile)
 
 userRoutes.post('/profile/address', autenticate.autenticate, UserControllers.createAddress)
 
+userRoutes.delete('/profile', autenticate.autenticate, UserControllers.deleteUser)
+
 export default userRoutes

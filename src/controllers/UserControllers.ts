@@ -23,8 +23,11 @@ export default new class UserControllers {
   async myProfile (req: Request, resp: Response) {
     try {
       const token = TokenOptions.removeBearer(req)
-
       const profile = await UserServices.myProfile(token!)
+
+      if (profile.err) {
+        return resp.status(404).json({ err: profile.err })
+      }
 
       return resp.status(200).json(profile.msg)
     } catch (error) {
@@ -56,6 +59,23 @@ export default new class UserControllers {
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ err: 'err not expect' })
+    }
+  }
+
+  async deleteUser (req: Request, resp: Response) {
+    try {
+      const token = TokenOptions.removeBearer(req)
+
+      const del = await UserServices.deleteUser(token!)
+
+      if (del.err) {
+        return resp.status(404).json({ err: del.err })
+      }
+
+      return resp.status(200).json({ msg: del.msg })
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ err: 'error not expect' })
     }
   }
 }()
