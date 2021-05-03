@@ -4,6 +4,7 @@ import crypto from 'crypto'
 import CompanyData from '../../data/company/CompanyData'
 import { ICreateCompanyServices } from './CompanyDTO'
 import UserServices from '../users/UserServices'
+import TokenOptions from '../../utils/TokenOptions'
 
 class CompanyServices {
   async createCompany (data: ICreateCompanyServices) {
@@ -47,6 +48,17 @@ class CompanyServices {
     }
 
     return { msg: 'validate' }
+  }
+
+  async searchCompany (token: string) {
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchCompany = await CompanyData.searchId(id)
+
+    if (searchCompany.length === 0) {
+      return { err: 'company not found' }
+    }
+
+    return { msg: id }
   }
 }
 
