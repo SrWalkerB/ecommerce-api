@@ -25,10 +25,11 @@ export default new class ProductData {
   }
 
   createProduct (data: ICreateProductData) {
-    return dbActions('product').insert({
+    return dbActions('products').insert({
       id_product: data.idProduct,
       id_company: data.idCompany,
       name: data.name,
+      description: data.description,
       price: data.price,
       type: data.type,
       stock: data.stock,
