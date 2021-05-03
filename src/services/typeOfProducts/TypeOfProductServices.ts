@@ -2,7 +2,13 @@ import TypeOfProductsData from '../../data/typeOfProducts/TypeOfProductsData'
 
 export default new class TypeOfProductServices {
   async listAllTypeProducts () {
-    return TypeOfProductsData.listAllTypeOfProducts()
+    const types = await TypeOfProductsData.listAllTypeOfProducts()
+
+    if (types.length === 0) {
+      return { err: 'types not found' }
+    }
+
+    return { message: types }
   }
 
   async searchTypeID (id: string) {
@@ -12,7 +18,7 @@ export default new class TypeOfProductServices {
       return { err: 'type not found' }
     }
 
-    return searchType
+    return { message: searchType }
   }
 
   async searchTypeName (name: string) {
@@ -22,6 +28,6 @@ export default new class TypeOfProductServices {
       return { err: 'type not found' }
     }
 
-    return searchType
+    return { message: searchType }
   }
 }()

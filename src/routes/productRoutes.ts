@@ -6,6 +6,8 @@ const productRoutes = Router()
 
 productRoutes.get('/products', autenticate.autenticate, ProductControllers.listAllProduct)
 
+productRoutes.get('/typesProducts', ProductControllers.listAllTypeOfProduct)
+
 productRoutes.post('/products', autenticate.autenticate, ProductControllers.createProduct)
 
 productRoutes.put('/products/:idProduct', autenticate.autenticate, ProductControllers.updateProduct)

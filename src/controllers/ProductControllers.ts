@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import ProductServices from '../services/products/ProductServices'
+import TypeOfProductServices from '../services/typeOfProducts/TypeOfProductServices'
 import TokenOptions from '../utils/TokenOptions'
 
 export default new class ProductControllers {
@@ -13,6 +14,21 @@ export default new class ProductControllers {
       }
 
       return resp.status(200).json(list.msg)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
+  async listAllTypeOfProduct (req: Request, resp: Response) {
+    try {
+      const types = await TypeOfProductServices.listAllTypeProducts()
+
+      if (types.err) {
+        return resp.status(404).json({ message: types.err })
+      }
+
+      return resp.status(200).json(types.message)
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })
