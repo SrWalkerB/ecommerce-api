@@ -22,7 +22,10 @@ export async function up (knex: Knex): Promise<void> {
     table.float('price')
       .notNullable()
 
-    table.string('type', 20)
+    table.string('id_type')
+      .references('id_typeProduct')
+      .inTable('typeOfProducts')
+      .defaultTo('product')
       .notNullable()
 
     table.bigInteger('stock')
