@@ -3,24 +3,24 @@ import { ICreateProductData, IUpdateProductData } from './ProductDataDTO'
 
 export default new class ProductData {
   searchProduct (idProduct: string, idCompany: string) {
-    return dbActions('product')
+    return dbActions('products')
       .where('id_product', idProduct)
       .where('id_company', idCompany)
   }
 
   searchProductName (idCompany: string, name: string) {
-    return dbActions('product')
+    return dbActions('products')
       .where('id_company', idCompany)
       .where('name', name)
   }
 
   listAllProduct (idCompany: string) {
-    return dbActions('product')
+    return dbActions('products')
       .where('id_company', idCompany)
   }
 
   listAllTypeProduct (type: string) {
-    return dbActions('product')
+    return dbActions('products')
       .where('type', type)
   }
 
@@ -37,7 +37,7 @@ export default new class ProductData {
   }
 
   updateProduct (data: IUpdateProductData) {
-    return dbActions('product')
+    return dbActions('products')
       .where('id_product', data.idProduct)
       .where('id_company', data.idCompany)
       .update({
@@ -50,7 +50,7 @@ export default new class ProductData {
   }
 
   deleteProduct (idProduct: string, idCompany: string) {
-    return dbActions('product')
+    return dbActions('products')
       .where('id_product', idProduct)
       .where('id_company', idCompany)
       .del()
