@@ -10,4 +10,6 @@ productRoutes.post('/products', autenticate.autenticate, ProductControllers.crea
 
 productRoutes.put('/products/:idProduct', autenticate.autenticate, ProductControllers.updateProduct)
 
+productRoutes.delete('/products/:idProduct', autenticate.autenticate, ProductControllers.deleteProduct)
+
 export default productRoutes

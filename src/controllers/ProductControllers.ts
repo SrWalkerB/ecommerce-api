@@ -88,4 +88,21 @@ export default new class ProductControllers {
       return resp.status(500).json({ message: 'err not expect' })
     }
   }
+
+  async deleteProduct (req: Request, resp: Response) {
+    try {
+      const { idProduct } = req.params
+      const token = TokenOptions.removeBearer(req)
+      const del = await ProductServices.deleteProduct(token!, idProduct)
+
+      if (del.err) {
+        return resp.status(404).json({ message: del.err })
+      }
+
+      return resp.status(200).json({ message: del.msg })
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
 }()

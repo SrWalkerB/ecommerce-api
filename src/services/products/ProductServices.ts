@@ -105,7 +105,7 @@ export default new class ProductServices {
       return { err: searchCompany.err }
     }
 
-    const { id } = searchCompany.msg
+    const id = searchCompany.msg
     const searchProduct = await ProductData.searchProduct(idProduct, id)
 
     if (searchProduct.length === 0) {
@@ -113,6 +113,7 @@ export default new class ProductServices {
     }
 
     await ProductData.deleteProduct(idProduct, id)
+
     return { msg: 'product delete' }
   }
 }()
