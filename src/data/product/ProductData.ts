@@ -31,7 +31,7 @@ export default new class ProductData {
       name: data.name,
       description: data.description,
       price: data.price,
-      type: data.type,
+      id_type: data.type,
       stock: data.stock,
       image: data.image
     })
@@ -45,7 +45,7 @@ export default new class ProductData {
         name: data.name,
         price: data.price,
         description: data.description,
-        type: data.type,
+        id_type: data.type,
         stock: data.stock,
         image: data.image
       })
