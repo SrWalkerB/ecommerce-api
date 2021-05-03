@@ -44,6 +44,7 @@ export default new class ProductData {
       .update({
         name: data.name,
         price: data.price,
+        description: data.description,
         type: data.type,
         stock: data.stock,
         image: data.image

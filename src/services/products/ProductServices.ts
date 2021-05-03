@@ -66,7 +66,7 @@ export default new class ProductServices {
       return { err: searchCompany.err }
     }
 
-    const { id } = searchCompany.msg
+    const id = searchCompany.msg
     const searchProduct = await ProductData.searchProduct(data.idProduct, id)
 
     if (searchProduct.length === 0) {

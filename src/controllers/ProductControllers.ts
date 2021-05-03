@@ -15,7 +15,7 @@ export default new class ProductControllers {
       return resp.status(200).json(list.msg)
     } catch (error) {
       console.log(error)
-      return resp.status(500).json({ message: 'err not espect' })
+      return resp.status(500).json({ message: 'err not expect' })
     }
   }
 
@@ -51,7 +51,41 @@ export default new class ProductControllers {
       return resp.status(201).json(create.msg)
     } catch (error) {
       console.log(error)
-      return resp.status(500).json({ message: 'err not espect' })
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
+  async updateProduct (req: Request, resp: Response) {
+    try {
+      const token = TokenOptions.removeBearer(req)
+      const { idProduct } = req.params
+      const {
+        name,
+        description,
+        price,
+        type,
+        stock,
+        image
+      } = req.body
+
+      const update = await ProductServices.updateProduct(token!, {
+        idProduct,
+        name,
+        description,
+        price,
+        type,
+        stock,
+        image
+      })
+
+      if (update.err) {
+        return resp.status(404).json({ message: update.err })
+      }
+
+      return resp.status(200).json(update.msg)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
     }
   }
 }()
