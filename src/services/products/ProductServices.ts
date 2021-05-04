@@ -20,7 +20,7 @@ export default new class ProductServices {
     const products = []
 
     for (let x = 0; x < allProducts.length; x++) {
-      const searchTypeProduct = await TypeOfProductServices.searchTypeID(allProducts[x].id_type)
+      const searchTypeProduct = await TypeOfProductServices.searchTypeID(allProducts[x].id_types)
       const [{ name: nameType }]: any = searchTypeProduct.message
 
       products.push({
