@@ -7,11 +7,11 @@ export default new class TypeOfProducts {
 
   async searchTypeID (id: string) {
     return await dbActions('type_of_products')
-      .where('id_typeProduct', id)
+      .where('id_type', id)
   }
 
   async searchTypeName (name: string) {
     return await dbActions('type_of_products')
-      .where('id_typeProduct', name)
+      .where('id_type', name)
   }
 }()
