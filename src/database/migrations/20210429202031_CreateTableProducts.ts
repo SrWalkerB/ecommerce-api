@@ -13,10 +13,10 @@ export async function up (knex: Knex): Promise<void> {
       .onDelete('CASCADE')
       .notNullable()
 
-    table.string('name', 50)
+    table.string('name', 100)
       .notNullable()
 
-    table.string('description')
+    table.text('description')
       .notNullable()
 
     table.float('price')
