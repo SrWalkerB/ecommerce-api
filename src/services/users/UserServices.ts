@@ -71,7 +71,26 @@ export default new class UserServices {
     switch (type) {
       case 'pj': {
         const [{ name, cnpj }] = await CompanyData.searchId(idUser)
-        const [{ cep, street, neighborhood, number, city, state, coutry }] = await AddressData.searchAddress(idUser)
+        const searchAddress = await AddressData.searchAddress(idUser)
+        let address: any = '0'
+
+        if (searchAddress.length === 0) {
+          address = 'not informed'
+        }
+
+        if (searchAddress.length !== 0) {
+          const [{ cep, street, neighborhood, number, city, state, coutry }] = searchAddress
+
+          address = {
+            cep: cep,
+            street: street,
+            neighborhood: neighborhood,
+            number: number,
+            city: city,
+            state: state,
+            coutry: coutry
+          }
+        }
 
         user = {
           id_user: idUser,
@@ -79,15 +98,7 @@ export default new class UserServices {
           cnpj: cnpj,
           email: email,
           type: type,
-          address: {
-            cep: cep,
-            street: street,
-            neighborhood: neighborhood,
-            number: number,
-            city: city,
-            state: state,
-            coutry
-          }
+          address: address
         }
         break
       }
