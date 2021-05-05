@@ -13,7 +13,7 @@ export async function up (knex: Knex): Promise<void> {
     table.string('password')
       .notNullable()
 
-    table.string('type', 4)
+    table.string('type', 6)
       .notNullable()
 
     table.string('created_At')
