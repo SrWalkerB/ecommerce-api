@@ -17,7 +17,7 @@ export default new class UserServices {
     await UserData.createUser({
       id: data.id,
       email: data.email,
-      password: data.password,
+      password: bcrypt.hashSync(data.password, 8),
       type: data.type
     })
   }
