@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import CompanyData from '../../data/company/CompanyData'
 import { ICreateCompanyServices } from './CompanyDTO'
@@ -20,7 +19,7 @@ class CompanyServices {
       id: id,
       type: 'pj',
       email: data.email,
-      password: bcrypt.hashSync(data.password, 8)
+      password: data.password
     })
 
     if (createUser?.err) {
