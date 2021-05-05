@@ -35,6 +35,23 @@ export default new class ProductControllers {
     }
   }
 
+  async searchProductsByTypes (req: Request, resp: Response) {
+    try {
+      const { type } = req.params
+      const token = TokenOptions.removeBearer(req)
+      const allProducts = await TypeOfProductServices.searchProductByType(token!, type)
+
+      if (allProducts.message !== 'sucess') {
+        return resp.status(404).json({ message: allProducts.message })
+      }
+
+      return resp.status(200).json(allProducts)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
   async createProduct (req: Request, resp: Response) {
     try {
       const token = TokenOptions.removeBearer(req)

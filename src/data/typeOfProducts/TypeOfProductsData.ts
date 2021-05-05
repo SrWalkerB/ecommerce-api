@@ -12,6 +12,6 @@ export default new class TypeOfProducts {
 
   async searchTypeName (name: string) {
     return await dbActions('type_of_products')
-      .where('id_type', name)
+      .where('name', name)
   }
 }()

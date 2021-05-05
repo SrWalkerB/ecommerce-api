@@ -6,7 +6,9 @@ const productRoutes = Router()
 
 productRoutes.get('/products', autenticate.autenticate, ProductControllers.listAllProduct)
 
-productRoutes.get('/typesProducts', ProductControllers.listAllTypeOfProduct)
+productRoutes.get('/typesAllProducts', ProductControllers.listAllTypeOfProduct)
+
+productRoutes.get('/productsByTypes/:type', ProductControllers.searchProductsByTypes)
 
 productRoutes.post('/products', autenticate.autenticate, ProductControllers.createProduct)
 

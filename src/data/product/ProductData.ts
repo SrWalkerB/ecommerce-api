@@ -19,9 +19,10 @@ export default new class ProductData {
       .where('id_company', idCompany)
   }
 
-  listAllTypeProduct (type: string) {
+  listAllTypeProduct (idCompany: string, idType: string) {
     return dbActions('products')
-      .where('type', type)
+      .where('id_company', idCompany)
+      .where('id_types', idType)
   }
 
   createProduct (data: ICreateProductData) {
