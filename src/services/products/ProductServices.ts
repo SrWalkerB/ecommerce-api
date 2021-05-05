@@ -5,6 +5,7 @@ import ProductData from '../../data/product/ProductData'
 import TokenOptions from '../../utils/TokenOptions'
 import CompanyServices from '../company/CompanyServices'
 import { ICreateProductServices, IUpdateProductServices } from './ProductServicesDTO'
+import TypeOfProductServices from '../typeOfProducts/TypeOfProductServices'
 
 export default new class ProductServices {
   async listAllProduct (token: string) {
@@ -16,8 +17,26 @@ export default new class ProductServices {
     }
 
     const allProducts = await ProductData.listAllProduct(id)
+    const products = []
 
-    return { msg: allProducts }
+    for (let x = 0; x < allProducts.length; x++) {
+      const searchTypeProduct = await TypeOfProductServices.searchTypeID(allProducts[x].id_types)
+      const [{ name: nameType }]: any = searchTypeProduct.message
+
+      products.push({
+        id_product: allProducts[x].id_product,
+        id_company: allProducts[x].id_company,
+        name: allProducts[x].name,
+        description: allProducts[x].description,
+        price: allProducts[x].price,
+        id_type: nameType,
+        stock: allProducts[x].stock,
+        image: allProducts[x].image,
+        created_At: allProducts[x].created_At
+      })
+    }
+
+    return { msg: products }
   }
 
   async createProducts (token: string, data: ICreateProductServices) {
