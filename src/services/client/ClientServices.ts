@@ -6,6 +6,7 @@ import ClientData from '../../data/client/ClientData'
 import TokenOptions from '../../utils/TokenOptions'
 import UserData from '../../data/users/UserData'
 import ProductData from '../../data/product/ProductData'
+import FavoritesProductsData from '../../data/favoritesProducts/FavoritesProductsData'
 
 export default new class ClientServices {
   async createUsers (data: ICreateClientServices) {
@@ -44,18 +45,35 @@ export default new class ClientServices {
     const { id } = TokenOptions.verifyToken(token).msg
     const searchUser = await UserData.searchId(id)
     const searchProduct = await ProductData.searchProductID(idProduct)
+    const searchFavoriteProductClient = await FavoritesProductsData.searchFavoriteProductClient(id, idProduct)
 
     if (searchUser.length === 0) {
       return { message: 'user not found' }
     }
 
-    if (searchProduct.length !== 0) {
-      return { message: 'user not found' }
+    if (searchProduct.length === 0) {
+      return { message: 'product not found' }
     }
 
-    console.log(searchProduct)
+    if (searchFavoriteProductClient.length !== 0) {
+      return { message: 'product already favorite' }
+    }
 
-    return { message: 'sucesso' }
+    const [{ id_company: idCompany }] = searchProduct
+
+    const product = {
+      idClient: id,
+      idProduct: idProduct,
+      idCompany: idCompany
+    }
+
+    await FavoritesProductsData.createFavoritesProducts({
+      idClient: product.idClient,
+      idCompany: product.idCompany,
+      idProduct: product.idProduct
+    })
+
+    return { message: 'sucesso', body: [product] }
   }
 
   private async SearchCpf (cpf: number) {

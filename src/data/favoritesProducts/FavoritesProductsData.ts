@@ -1,7 +1,13 @@
 import dbActions from '../../database/connect'
-import { ICreateAndRemoveFavoritesProducts, IListAllFavoritesProducts } from './FavoritesProductsDTO'
+import { ICreateAndRemoveFavoritesProducts, IListAllFavoritesProducts } from './FavoritesProductsDataDTO'
 
 export default new class FavoritesProducts {
+  searchFavoriteProductClient (idClient: string, idProduct: string) {
+    return dbActions('favorites_products')
+      .where('id_client', idClient)
+      .where('id_product', idProduct)
+  }
+
   listAllFavoritesProducts (data: IListAllFavoritesProducts) {
     return dbActions('favorites_products')
       .where('id_client', data.idClient)

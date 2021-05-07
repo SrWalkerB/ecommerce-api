@@ -32,6 +32,14 @@ export default new class ClientControllers {
       const { idProduct } = req.params
       const favorite = await ClientServices.favoriteProduct(token!, idProduct)
 
+      if (favorite.message === 'product already favorite') {
+        return resp.status(400).json({ message: favorite.message })
+      }
+
+      if (favorite.message !== 'sucesso') {
+        return resp.status(404).json({ message: favorite.message })
+      }
+
       return resp.status(200).json(favorite)
     } catch (error) {
       console.log(error)
