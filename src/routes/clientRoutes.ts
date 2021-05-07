@@ -7,4 +7,6 @@ clientRoutes.post('/client', ClientControllers.createClient)
 
 clientRoutes.post('/client/favorite/:idProduct', ClientControllers.favoriteProduct)
 
+clientRoutes.delete('/client/favorite/:idProduct', ClientControllers.deleteFavoriteProduct)
+
 export default clientRoutes

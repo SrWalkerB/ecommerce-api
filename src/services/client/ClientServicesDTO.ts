@@ -7,6 +7,4 @@ interface ICreateClientServices{
     password: string
 }
 
-export {
-  ICreateClientServices
-}
+export { ICreateClientServices }

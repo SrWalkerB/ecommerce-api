@@ -40,7 +40,25 @@ export default new class ClientControllers {
         return resp.status(404).json({ message: favorite.message })
       }
 
-      return resp.status(200).json(favorite)
+      return resp.status(201).json(favorite)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
+  async deleteFavoriteProduct (req: Request, resp: Response) {
+    try {
+      const token = TokenOptions.removeBearer(req)
+      const { idProduct } = req.params
+
+      const del = await ClientServices.RemoveFavoriteProduct(token!, idProduct)
+
+      if (del.message !== 'sucess') {
+        return resp.status(404).json({ message: del.message })
+      }
+
+      return resp.status(200).json({ message: del.message })
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })

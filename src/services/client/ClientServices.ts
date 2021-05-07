@@ -76,6 +76,35 @@ export default new class ClientServices {
     return { message: 'sucesso', body: [product] }
   }
 
+  async RemoveFavoriteProduct (token: string, idProduct: string) {
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchClient = await ClientData.searchId(id)
+    const searchProduct = await ProductData.searchProductID(idProduct)
+    const searchFavoriteProduct = await FavoritesProductsData.searchFavoriteProductClient(id, idProduct)
+
+    if (searchClient.length === 0) {
+      return { message: 'client not found' }
+    }
+
+    if (searchProduct.length === 0) {
+      return { message: 'product not found' }
+    }
+
+    if (searchFavoriteProduct.length === 0) {
+      return { message: 'favorite product not create' }
+    }
+
+    const [{ id_company: idCompany }] = searchProduct
+
+    await FavoritesProductsData.removeFavoritesProducts({
+      idClient: id,
+      idProduct: idProduct,
+      idCompany: idCompany
+    })
+
+    return { message: 'sucesso' }
+  }
+
   private async SearchCpf (cpf: number) {
     const searchCpf = await ClientData.searchCpf(cpf)
 
