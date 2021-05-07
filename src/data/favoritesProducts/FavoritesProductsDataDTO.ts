@@ -1,9 +1,4 @@
 
-interface IListAllFavoritesProducts{
-    idCompany: string,
-    idClient: string
-}
-
 interface ICreateAndRemoveFavoritesProducts{
     idProduct: string,
     idCompany: string,
@@ -11,6 +6,5 @@ interface ICreateAndRemoveFavoritesProducts{
 }
 
 export {
-  IListAllFavoritesProducts,
   ICreateAndRemoveFavoritesProducts
 }

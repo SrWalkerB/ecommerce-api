@@ -5,6 +5,8 @@ const clientRoutes = Router()
 
 clientRoutes.post('/client', ClientControllers.createClient)
 
+clientRoutes.get('/client/favorite', ClientControllers.myListFavoritesProduct)
+
 clientRoutes.post('/client/favorite/:idProduct', ClientControllers.favoriteProduct)
 
 clientRoutes.delete('/client/favorite/:idProduct', ClientControllers.deleteFavoriteProduct)

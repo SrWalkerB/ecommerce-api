@@ -26,6 +26,22 @@ export default new class ClientControllers {
     }
   }
 
+  async myListFavoritesProduct (req: Request, resp: Response) {
+    try {
+      const token = TokenOptions.removeBearer(req)
+      const products = await ClientServices.listFavoritesProduct(token!)
+
+      if (products.message !== 'sucess') {
+        return resp.status(404).json({ message: products.message })
+      }
+
+      return resp.status(200).json(products)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
   async favoriteProduct (req: Request, resp: Response) {
     try {
       const token = TokenOptions.removeBearer(req)

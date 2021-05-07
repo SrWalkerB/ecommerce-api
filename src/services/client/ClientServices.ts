@@ -41,6 +41,35 @@ export default new class ClientServices {
     return { message: 'sucesso', body: client }
   }
 
+  async listFavoritesProduct (token: string) {
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchClient = await ClientData.searchId(id)
+    const searchFavoritesProducts = await FavoritesProductsData.listAllFavoritesProducts(id)
+
+    if (searchClient.length === 0) {
+      return { message: 'client not found' }
+    }
+
+    if (searchFavoritesProducts.length === 0) {
+      return { message: 'not existed favorites products to this client' }
+    }
+
+    const products = []
+
+    for (let x = 0; x < searchFavoritesProducts.length; x++) {
+      const searchProduct = await ProductData.searchProductID(searchFavoritesProducts[x].id_product)
+
+      const [{ id_product: idProduct, name }] = searchProduct
+
+      products.push({
+        idProduct: idProduct,
+        name: name
+      })
+    }
+
+    return { message: 'sucess', body: [products] }
+  }
+
   async favoriteProduct (token: string, idProduct: string) {
     const { id } = TokenOptions.verifyToken(token).msg
     const searchUser = await UserData.searchId(id)
