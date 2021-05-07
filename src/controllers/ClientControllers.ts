@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import ClientServices from '../services/client/ClientServices'
+import TokenOptions from '../utils/TokenOptions'
 
 export default new class ClientControllers {
   async createClient (req: Request, resp: Response) {
@@ -19,6 +20,19 @@ export default new class ClientControllers {
       }
 
       return resp.status(201).json(create)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
+  async favoriteProduct (req: Request, resp: Response) {
+    try {
+      const token = TokenOptions.removeBearer(req)
+      const { idProduct } = req.params
+      const favorite = await ClientServices.favoriteProduct(token!, idProduct)
+
+      return resp.status(200).json(favorite)
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })

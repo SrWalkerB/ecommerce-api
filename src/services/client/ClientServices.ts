@@ -3,6 +3,9 @@ import crypto from 'crypto'
 import UserServices from '../users/UserServices'
 import { ICreateClientServices } from './ClientServicesDTO'
 import ClientData from '../../data/client/ClientData'
+import TokenOptions from '../../utils/TokenOptions'
+import UserData from '../../data/users/UserData'
+import ProductData from '../../data/product/ProductData'
 
 export default new class ClientServices {
   async createUsers (data: ICreateClientServices) {
@@ -35,6 +38,24 @@ export default new class ClientServices {
     })
 
     return { message: 'sucesso', body: client }
+  }
+
+  async favoriteProduct (token: string, idProduct: string) {
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchUser = await UserData.searchId(id)
+    const searchProduct = await ProductData.searchProductID(idProduct)
+
+    if (searchUser.length === 0) {
+      return { message: 'user not found' }
+    }
+
+    if (searchProduct.length !== 0) {
+      return { message: 'user not found' }
+    }
+
+    console.log(searchProduct)
+
+    return { message: 'sucesso' }
   }
 
   private async SearchCpf (cpf: number) {
