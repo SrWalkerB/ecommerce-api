@@ -1,5 +1,5 @@
 import dbActions from '../../database/connect'
-import { ICreatePurchasesData } from './PurchasesDataDTO'
+import { ICreatePurchasesData } from './PurchasesDTO'
 
 export default new class PurchasesData {
   listAllPurchasesClient (idClient: string) {

@@ -11,6 +11,8 @@ clientRoutes.get('/client/favorite', autenticate.autenticate, verifyClient, Clie
 
 clientRoutes.post('/client/favorite/:idProduct', autenticate.autenticate, verifyClient, ClientControllers.favoriteProduct)
 
+clientRoutes.post('/client/purchase/:idProduct/:theAmount', autenticate.autenticate, verifyClient, ClientControllers.purchaseProduct)
+
 clientRoutes.delete('/client/favorite/:idProduct', autenticate.autenticate, verifyClient, ClientControllers.deleteFavoriteProduct)
 
 export default clientRoutes
