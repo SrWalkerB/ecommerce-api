@@ -1,19 +1,20 @@
 import { Router } from 'express'
 import ProductControllers from '../controllers/ProductControllers'
 import autenticate from '../middlewares/autenticate'
+import { verifyCompany } from '../middlewares/verifyCompanyMiddleware copy'
 
 const productRoutes = Router()
-
-productRoutes.get('/products', autenticate.autenticate, ProductControllers.listAllProduct)
 
 productRoutes.get('/typesAllProducts', ProductControllers.listAllTypeOfProduct)
 
 productRoutes.get('/productsByTypes/:type', ProductControllers.searchProductsByTypes)
 
-productRoutes.post('/products', autenticate.autenticate, ProductControllers.createProduct)
+productRoutes.get('/products', autenticate.autenticate, verifyCompany, ProductControllers.listAllProduct)
 
-productRoutes.put('/products/:idProduct', autenticate.autenticate, ProductControllers.updateProduct)
+productRoutes.post('/products', autenticate.autenticate, verifyCompany, ProductControllers.createProduct)
 
-productRoutes.delete('/products/:idProduct', autenticate.autenticate, ProductControllers.deleteProduct)
+productRoutes.put('/products/:idProduct', autenticate.autenticate, verifyCompany, ProductControllers.updateProduct)
+
+productRoutes.delete('/products/:idProduct', autenticate.autenticate, verifyCompany, ProductControllers.deleteProduct)
 
 export default productRoutes
