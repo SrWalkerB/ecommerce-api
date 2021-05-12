@@ -43,6 +43,22 @@ export default new class ClientControllers {
     }
   }
 
+  async myListRequestProduct (req: Request, resp: Response) {
+    try {
+      const token = TokenOptions.removeBearer(req)
+      const requestsProduct = await PurchaseServices.listAllPurchasesClient(token!)
+
+      if (requestsProduct.message !== 'success') {
+        return resp.status(404).json({ message: requestsProduct.message })
+      }
+
+      return resp.status(200).json(requestsProduct)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
   async purchaseProduct (req: Request, resp: Response) {
     try {
       const { idProduct, theAmount } = req.params

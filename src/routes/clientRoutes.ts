@@ -9,6 +9,8 @@ clientRoutes.post('/client', ClientControllers.createClient)
 
 clientRoutes.get('/client/favorite', autenticate.autenticate, verifyClient, ClientControllers.myListFavoritesProduct)
 
+clientRoutes.get('/client/requests', autenticate.autenticate, verifyClient, ClientControllers.myListRequestProduct)
+
 clientRoutes.post('/client/favorite/:idProduct', autenticate.autenticate, verifyClient, ClientControllers.favoriteProduct)
 
 clientRoutes.post('/client/purchase/:idProduct/:theAmount', autenticate.autenticate, verifyClient, ClientControllers.purchaseProduct)
