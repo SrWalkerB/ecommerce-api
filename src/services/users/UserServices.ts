@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import AddressData from '../../data/address/AddressData'
+import ClientData from '../../data/client/ClientData'
 import CompanyData from '../../data/company/CompanyData'
 import UserData from '../../data/users/UserData'
 import { ICreateUserData } from '../../data/users/UserDataDTO'
@@ -104,11 +105,38 @@ export default new class UserServices {
       }
 
       case 'client': {
+        const [{ name, lastName, cpf }] = await ClientData.searchId(idUser)
+        const searchAddress = await AddressData.searchAddress(idUser)
+        let address: any = '0'
+
+        if (searchAddress.length === 0) {
+          address = 'not informed'
+        }
+
+        if (searchAddress.length !== 0) {
+          const [{ cep, street, neighborhood, number, city, state, coutry }] = searchAddress
+
+          address = {
+            cep: cep,
+            street: street,
+            neighborhood: neighborhood,
+            number: number,
+            city: city,
+            state: state,
+            coutry: coutry
+          }
+        }
+
         user = {
           id: idUser,
+          name: name,
+          lastName: lastName,
+          cpf: cpf,
           email: email,
-          type: type
+          type: type,
+          address: address
         }
+        break
       }
     }
 

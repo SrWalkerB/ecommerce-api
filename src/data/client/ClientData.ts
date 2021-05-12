@@ -16,4 +16,9 @@ export default new class ClientData {
     return dbActions('client')
       .where('cpf', cpf)
   }
+
+  searchId (id: string) {
+    return dbActions('client')
+      .where('id_client', id)
+  }
 }()
