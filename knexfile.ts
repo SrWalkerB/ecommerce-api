@@ -8,11 +8,15 @@ export default {
     connection: {
       database: process.env.DATABASE,
       user: process.env.USER,
-      password: process.env.PASSWORD
+      host: process.env.HOST,
+      password: process.env.PASSWORD_DB
     },
     migrations: {
       tableName: 'migrations',
       directory: './src/database/migrations'
+    },
+    seeds: {
+      directory: './src/database/seeds'
     }
   }
 

@@ -2,9 +2,7 @@
 interface ICreateCompanyData{
     id: string,
     name: string,
-    cpnj: number,
-    email: string,
-    password: string
+    cpnj: number
 }
 
 export {

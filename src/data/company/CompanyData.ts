@@ -5,11 +5,19 @@ export default new class CompanyData {
   createCompany (data: ICreateCompanyData) {
     return dbActions('company')
       .insert({
-        id: data.id,
+        id_company: data.id,
         name: data.name,
-        cnpj: data.cpnj,
-        email: data.email,
-        password: data.password
+        cnpj: data.cpnj
       })
+  }
+
+  searchCnpj (cnpj: number) {
+    return dbActions('company')
+      .where('cnpj', cnpj)
+  }
+
+  searchId (id: string) {
+    return dbActions('company')
+      .where('id_company', id)
   }
 }()

@@ -3,22 +3,21 @@ import dbActions from '../connect'
 
 export async function up (knex: Knex): Promise<void> {
   return await dbActions.schema.createTableIfNotExists('company', table => {
-    table.string('id')
+    table.string('id_company')
+      .references('id_user')
+      .inTable('users')
+      .onDelete('CASCADE')
+      .primary()
       .notNullable()
 
     table.string('name', 60)
       .notNullable()
 
-    table.integer('cnpj', 11)
+    table.string('cnpj', 11)
+      .unique()
       .notNullable()
 
-    table.string('email')
-      .notNullable()
-
-    table.string('password')
-      .notNullable()
-
-    table.string('created_At')
+    table.timestamp('created_At')
       .defaultTo(dbActions.fn.now())
       .notNullable()
   })
