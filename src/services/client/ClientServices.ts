@@ -71,7 +71,7 @@ export default new class ClientServices {
   }
 
   async favoriteProduct (token: string, idProduct: string) {
-    const { id } = TokenOptions.verifyToken(token)
+    const { id } = TokenOptions.verifyToken(token).msg
     const searchUser = await UserData.searchId(id)
     const searchProduct = await ProductData.searchProductID(idProduct)
     const searchFavoriteProductClient = await FavoritesProductsData.searchFavoriteProductClient(id, idProduct)
@@ -102,7 +102,7 @@ export default new class ClientServices {
       idProduct: product.idProduct
     })
 
-    return { message: 'sucesso', body: ['product'] }
+    return { message: 'sucesso', body: [product] }
   }
 
   async RemoveFavoriteProduct (token: string, idProduct: string) {
