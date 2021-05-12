@@ -4,7 +4,6 @@ import UserServices from '../users/UserServices'
 import { ICreateClientServices } from './ClientServicesDTO'
 import ClientData from '../../data/client/ClientData'
 import TokenOptions from '../../utils/TokenOptions'
-import UserData from '../../data/users/UserData'
 import ProductData from '../../data/product/ProductData'
 import FavoritesProductsData from '../../data/favoritesProducts/FavoritesProductsData'
 
@@ -43,12 +42,7 @@ export default new class ClientServices {
 
   async listFavoritesProduct (token: string) {
     const { id } = TokenOptions.verifyToken(token).msg
-    const searchClient = await ClientData.searchId(id)
     const searchFavoritesProducts = await FavoritesProductsData.listAllFavoritesProducts(id)
-
-    if (searchClient.length === 0) {
-      return { message: 'client not found' }
-    }
 
     if (searchFavoritesProducts.length === 0) {
       return { message: 'not existed favorites products to this client' }
@@ -72,13 +66,8 @@ export default new class ClientServices {
 
   async favoriteProduct (token: string, idProduct: string) {
     const { id } = TokenOptions.verifyToken(token).msg
-    const searchUser = await UserData.searchId(id)
     const searchProduct = await ProductData.searchProductID(idProduct)
     const searchFavoriteProductClient = await FavoritesProductsData.searchFavoriteProductClient(id, idProduct)
-
-    if (searchUser.length === 0) {
-      return { message: 'user not found' }
-    }
 
     if (searchProduct.length === 0) {
       return { message: 'product not found' }
@@ -107,13 +96,8 @@ export default new class ClientServices {
 
   async RemoveFavoriteProduct (token: string, idProduct: string) {
     const { id } = TokenOptions.verifyToken(token).msg
-    const searchClient = await ClientData.searchId(id)
     const searchProduct = await ProductData.searchProductID(idProduct)
     const searchFavoriteProduct = await FavoritesProductsData.searchFavoriteProductClient(id, idProduct)
-
-    if (searchClient.length === 0) {
-      return { message: 'client not found' }
-    }
 
     if (searchProduct.length === 0) {
       return { message: 'product not found' }
