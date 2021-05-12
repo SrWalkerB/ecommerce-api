@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import ClientServices from '../services/client/ClientServices'
+import PurchaseServices from '../services/purchases/PurchaseServices'
 import TokenOptions from '../utils/TokenOptions'
 
 export default new class ClientControllers {
@@ -36,6 +37,27 @@ export default new class ClientControllers {
       }
 
       return resp.status(200).json(products)
+    } catch (error) {
+      console.log(error)
+      return resp.status(500).json({ message: 'err not expect' })
+    }
+  }
+
+  async purchaseProduct (req: Request, resp: Response) {
+    try {
+      const { idProduct, theAmount } = req.params
+      const token = TokenOptions.removeBearer(req)
+      const purchase = await PurchaseServices.createPurchase({
+        token: token!,
+        idProduct: idProduct,
+        theAmount: parseInt(theAmount)
+      })
+
+      if (purchase.message !== 'sucess') {
+        return resp.status(404).json({ message: purchase.message })
+      }
+
+      return resp.status(201).json(purchase)
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })
