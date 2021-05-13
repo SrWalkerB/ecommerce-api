@@ -7,9 +7,10 @@ export default new class PurchasesData {
       .where('id_client', idClient)
   }
 
-  listAllRequestSalesCompany (idCompany: string) {
+  listAllRequestSalesCompanyPending (idCompany: string) {
     return dbActions('purchases')
       .where('id_company', idCompany)
+      .where('status', 'pending')
   }
 
   listAllPurchaseStatusClient (idClient: string, status: string) {

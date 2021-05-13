@@ -17,6 +17,17 @@ export default new class PurchaseServices {
     return { message: 'success', body: [searchPurchase] }
   }
 
+  async listSalesPendingCompany (token: string) {
+    const { id } = TokenOptions.verifyToken(token).msg
+    const searchSalesPending = await PurchasesData.listAllRequestSalesCompanyPending(id)
+
+    if (searchSalesPending.length === 0) {
+      return { message: 'not exist sales pending' }
+    }
+
+    return { message: 'success', body: [searchSalesPending] }
+  }
+
   async createPurchase (data: ICreatePurchaseServices) {
     const { id: idClient } = TokenOptions.verifyToken(data.token).msg
     const searchProduct = await ProductData.searchProductID(data.idProduct)
