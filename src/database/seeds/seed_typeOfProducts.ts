@@ -38,7 +38,7 @@ export async function seed (knex: Knex): Promise<void> {
       },
       {
         id_type: uuidv4(),
-        name: 'pet-Shop'
+        name: 'pet-shop'
       },
       {
         id_type: uuidv4(),
