@@ -57,6 +57,15 @@ export default new class ProductData {
       })
   }
 
+  updateStockProduct (idProduct: string, idCompany: string, newStock: number) {
+    return dbActions('products')
+      .where('id_product', idProduct)
+      .where('id_company', idCompany)
+      .update({
+        stock: newStock
+      })
+  }
+
   deleteProduct (idProduct: string, idCompany: string) {
     return dbActions('products')
       .where('id_product', idProduct)

@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
 import crypto from 'crypto'
-import CompanyData from '../../data/company/CompanyData'
 import ProductData from '../../data/product/ProductData'
 import TokenOptions from '../../utils/TokenOptions'
 import CompanyServices from '../company/CompanyServices'
@@ -10,12 +9,6 @@ import TypeOfProductServices from '../typeOfProducts/TypeOfProductServices'
 export default new class ProductServices {
   async listAllProduct (token: string) {
     const { id } = TokenOptions.verifyToken(token).msg
-    const searchCompany = await CompanyData.searchId(id)
-
-    if (searchCompany.length === 0) {
-      return { err: 'company not found' }
-    }
-
     const allProducts = await ProductData.listAllProduct(id)
     const products = []
 
@@ -79,13 +72,7 @@ export default new class ProductServices {
   }
 
   async updateProduct (token: string, data: IUpdateProductServices) {
-    const searchCompany = await CompanyServices.searchCompany(token)
-
-    if (searchCompany.err) {
-      return { err: searchCompany.err }
-    }
-
-    const id = searchCompany.msg
+    const { id } = TokenOptions.verifyToken(token).msg
     const searchProduct = await ProductData.searchProduct(data.idProduct, id)
 
     if (searchProduct.length === 0) {
@@ -118,13 +105,7 @@ export default new class ProductServices {
   }
 
   async deleteProduct (token: string, idProduct: string) {
-    const searchCompany = await CompanyServices.searchCompany(token)
-
-    if (searchCompany.err) {
-      return { err: searchCompany.err }
-    }
-
-    const id = searchCompany.msg
+    const { id } = TokenOptions.verifyToken(token).msg
     const searchProduct = await ProductData.searchProduct(idProduct, id)
 
     if (searchProduct.length === 0) {
