@@ -9,14 +9,14 @@ export default new class UserControllers {
 
       const login = await UserServices.loginUser(email, password)
 
-      if (login.err) {
-        return resp.status(404).json({ err: login.err })
+      if (login.message === 'accout not found') {
+        return resp.status(404).json({ message: login.message })
       }
 
-      return resp.status(200).json({ token: login.token })
+      return resp.status(200).json({ token: login.message })
     } catch (error) {
       console.log(error)
-      return resp.status(500).json({ err: 'err not expect' })
+      return resp.status(500).json({ message: 'err not expect' })
     }
   }
 
@@ -25,14 +25,14 @@ export default new class UserControllers {
       const token = TokenOptions.removeBearer(req)
       const profile = await UserServices.myProfile(token!)
 
-      if (profile.err) {
-        return resp.status(404).json({ err: profile.err })
+      if (profile.message !== 'success') {
+        return resp.status(404).json({ message: profile.message })
       }
 
-      return resp.status(200).json(profile.msg)
+      return resp.status(200).json(profile)
     } catch (error) {
       console.log(error)
-      return resp.status(500).json({ err: 'err not expect' })
+      return resp.status(500).json({ message: 'err not expect' })
     }
   }
 
@@ -51,8 +51,8 @@ export default new class UserControllers {
         coutry
       })
 
-      if (address.err) {
-        return resp.status(400).json({ err: address.err })
+      if (address.message !== 'success') {
+        return resp.status(400).json({ message: address.message })
       }
 
       return resp.status(201).json(address)
@@ -65,14 +65,13 @@ export default new class UserControllers {
   async deleteUser (req: Request, resp: Response) {
     try {
       const token = TokenOptions.removeBearer(req)
-
       const del = await UserServices.deleteUser(token!)
 
-      if (del.err) {
-        return resp.status(404).json({ err: del.err })
+      if (del.message !== 'success') {
+        return resp.status(404).json({ message: del.message })
       }
 
-      return resp.status(200).json({ msg: del.msg })
+      return resp.status(200).json({ message: del.message })
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ err: 'error not expect' })

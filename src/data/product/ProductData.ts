@@ -24,9 +24,8 @@ export default new class ProductData {
       .where('id_company', idCompany)
   }
 
-  listAllTypeProduct (idCompany: string, idType: string) {
+  listAllTypeProduct (idType: string) {
     return dbActions('products')
-      .where('id_company', idCompany)
       .where('id_types', idType)
   }
 

@@ -9,7 +9,7 @@ export default new class ProductControllers {
       const token = TokenOptions.removeBearer(req)
       const list = await ProductServices.listAllProduct(token!)
 
-      return resp.status(200).json(list.msg)
+      return resp.status(200).json(list.message)
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })
@@ -20,8 +20,8 @@ export default new class ProductControllers {
     try {
       const types = await TypeOfProductServices.listAllTypeProducts()
 
-      if (types.err) {
-        return resp.status(404).json({ message: types.err })
+      if (types.message === 'types not found') {
+        return resp.status(404).json({ message: types.message })
       }
 
       return resp.status(200).json(types.message)
@@ -34,8 +34,7 @@ export default new class ProductControllers {
   async searchProductsByTypes (req: Request, resp: Response) {
     try {
       const { type } = req.params
-      const token = TokenOptions.removeBearer(req)
-      const allProducts = await TypeOfProductServices.searchProductByType(token!, type)
+      const allProducts = await TypeOfProductServices.searchProductByType(type)
 
       if (allProducts.message !== 'sucess') {
         return resp.status(404).json({ message: allProducts.message })
@@ -69,15 +68,15 @@ export default new class ProductControllers {
         image
       })
 
-      if (create.err === 'product already create') {
-        return resp.status(404).json({ message: create.err })
+      if (create.message === 'product already create') {
+        return resp.status(404).json({ message: create.message })
       }
 
-      if (create.err) {
-        return resp.status(404).json({ message: create.err })
+      if (create.message !== 'success') {
+        return resp.status(404).json({ message: create.message })
       }
 
-      return resp.status(201).json(create.msg)
+      return resp.status(201).json(create)
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })
@@ -107,11 +106,11 @@ export default new class ProductControllers {
         image
       })
 
-      if (update.err) {
-        return resp.status(404).json({ message: update.err })
+      if (update.message !== 'success') {
+        return resp.status(404).json({ message: update.message })
       }
 
-      return resp.status(200).json(update.msg)
+      return resp.status(200).json(update)
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })
@@ -124,11 +123,11 @@ export default new class ProductControllers {
       const token = TokenOptions.removeBearer(req)
       const del = await ProductServices.deleteProduct(token!, idProduct)
 
-      if (del.err) {
-        return resp.status(404).json({ message: del.err })
+      if (del.message !== 'success') {
+        return resp.status(404).json({ message: del.message })
       }
 
-      return resp.status(200).json({ message: del.msg })
+      return resp.status(200).json({ message: del.message })
     } catch (error) {
       console.log(error)
       return resp.status(500).json({ message: 'err not expect' })

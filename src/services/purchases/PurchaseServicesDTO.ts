@@ -1,8 +1,8 @@
 
 interface ICreatePurchaseServices{
     token: string,
-    idProduct: string,
-    theAmount: number,
+    idProduct: any,
+    theAmount: any,
 }
 
 export {

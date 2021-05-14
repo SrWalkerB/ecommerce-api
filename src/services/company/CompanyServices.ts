@@ -10,7 +10,7 @@ class CompanyServices {
     const resultSearch = await this.verificationCompany(data.cnpj, data.email)
 
     if (resultSearch.err) {
-      return { err: resultSearch.err }
+      return { message: resultSearch.err }
     }
 
     const id = `${uuidv4()}-${crypto.randomBytes(16).toString('hex')}`
@@ -23,7 +23,7 @@ class CompanyServices {
     })
 
     if (createUser?.err) {
-      return { err: createUser.err }
+      return { message: createUser.err }
     }
 
     await CompanyData.createCompany({
@@ -32,7 +32,14 @@ class CompanyServices {
       cpnj: data.cnpj
     })
 
-    return { msg: 'create' }
+    const company = {
+      id: id,
+      name: data.name,
+      cnpj: data.cnpj,
+      email: data.email
+    }
+
+    return { message: 'success', body: [company] }
   }
 
   async verificationCompany (cnpj: number, email: string) {
