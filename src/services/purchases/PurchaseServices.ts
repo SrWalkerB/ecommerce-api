@@ -4,6 +4,8 @@ import ProductData from '../../data/product/ProductData'
 import PurchasesData from '../../data/purchases/PurchasesData'
 import TokenOptions from '../../utils/TokenOptions'
 import { ICreatePurchaseServices } from './PurchaseServicesDTO'
+import ClientData from '../../data/client/ClientData'
+import AddressData from '../../data/address/AddressData'
 
 export default new class PurchaseServices {
   async listAllPurchasesClient (token: string) {
@@ -18,14 +20,69 @@ export default new class PurchaseServices {
   }
 
   async listSalesPendingCompany (token: string) {
+    const buy = []
     const { id } = TokenOptions.verifyToken(token).msg
     const searchSalesPending = await PurchasesData.listAllRequestSalesCompanyPending(id)
+
+    for (let x = 0; x < searchSalesPending.length; x++) {
+      const [{
+        id_purchase: idPurchase,
+        id_client: idClient,
+        id_product: idProduct,
+        the_Amount: theAmount,
+        price,
+        status
+      }] = searchSalesPending
+
+      const [{
+        name,
+        lastName,
+        cpf
+      }] = await ClientData.searchId(idClient)
+
+      const [{
+        cep,
+        street,
+        neighborhood,
+        number,
+        city,
+        state,
+        coutry
+      }] = await AddressData.searchAddress(idClient)
+
+      const [{ name: productName }] = await ProductData.searchProductID(idProduct)
+
+      buy.push({
+        idPurchase: idPurchase,
+        product: {
+          idProduct: idProduct,
+          name: productName,
+          theAmount: theAmount,
+          price: price,
+          status: status
+        },
+        client: {
+          name: name,
+          lastName: lastName,
+          cpf: cpf,
+          address: {
+            cep: cep,
+            street: street,
+            number: number,
+            neighborhood: neighborhood,
+            city: city,
+            state: state,
+            coutry: coutry
+          }
+        }
+      })
+    }
 
     if (searchSalesPending.length === 0) {
       return { message: 'not exist sales pending' }
     }
 
-    return { message: 'success', body: [searchSalesPending] }
+    return { message: 'success', body: buy }
   }
 
   async createPurchase (data: ICreatePurchaseServices) {
