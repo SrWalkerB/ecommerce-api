@@ -34,8 +34,7 @@ export default new class ProductControllers {
   async searchProductsByTypes (req: Request, resp: Response) {
     try {
       const { type } = req.params
-      const token = TokenOptions.removeBearer(req)
-      const allProducts = await TypeOfProductServices.searchProductByType(token!, type)
+      const allProducts = await TypeOfProductServices.searchProductByType(type)
 
       if (allProducts.message !== 'sucess') {
         return resp.status(404).json({ message: allProducts.message })
