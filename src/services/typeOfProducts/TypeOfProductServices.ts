@@ -7,7 +7,7 @@ export default new class TypeOfProductServices {
     const types = await TypeOfProductsData.listAllTypeOfProducts()
 
     if (types.length === 0) {
-      return { err: 'types not found' }
+      return { message: 'types not found' }
     }
 
     return { message: types }
