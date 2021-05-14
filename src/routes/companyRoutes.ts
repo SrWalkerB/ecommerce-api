@@ -5,7 +5,7 @@ import { verifyCompany } from '../middlewares/verifyCompanyMiddleware copy'
 
 const company = Router()
 
-company.get('/company', CompanyController.createCompany)
+company.post('/company', CompanyController.createCompany)
 
 company.get('/company/sales/pending', autenticate.autenticate, verifyCompany, CompanyController.listMySalesPending)
 
