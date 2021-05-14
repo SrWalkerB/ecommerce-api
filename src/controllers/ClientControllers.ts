@@ -61,12 +61,13 @@ export default new class ClientControllers {
 
   async purchaseProduct (req: Request, resp: Response) {
     try {
-      const { idProduct, theAmount } = req.params
+      const { idProduct, theAmount } = req.query
       const token = TokenOptions.removeBearer(req)
+
       const purchase = await PurchaseServices.createPurchase({
         token: token!,
-        idProduct: idProduct,
-        theAmount: parseInt(theAmount)
+        idProduct: idProduct!,
+        theAmount: theAmount!
       })
 
       if (purchase.message !== 'sucess') {
