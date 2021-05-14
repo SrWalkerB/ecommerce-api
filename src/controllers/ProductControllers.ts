@@ -20,8 +20,8 @@ export default new class ProductControllers {
     try {
       const types = await TypeOfProductServices.listAllTypeProducts()
 
-      if (types.err) {
-        return resp.status(404).json({ message: types.err })
+      if (types.message === 'types not found') {
+        return resp.status(404).json({ message: types.message })
       }
 
       return resp.status(200).json(types.message)
