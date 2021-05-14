@@ -10,47 +10,47 @@ export async function seed (knex: Knex): Promise<void> {
     .insert([
       {
         id_type: uuidv4(),
-        name: 'Accessories-of-technology'
+        name: 'accessories-of-technology'
       },
       {
         id_type: uuidv4(),
-        name: 'Air-and-ventilation'
+        name: 'air-and-ventilation'
       },
       {
         id_type: uuidv4(),
-        name: 'Audio'
+        name: 'audio'
       },
       {
         id_type: uuidv4(),
-        name: 'Camera-and-drones'
+        name: 'aamera-and-drones'
       },
       {
         id_type: uuidv4(),
-        name: 'Home-appliances'
+        name: 'home-appliances'
       },
       {
         id_type: uuidv4(),
-        name: 'Sport'
+        name: 'sport'
       },
       {
         id_type: uuidv4(),
-        name: 'Informatic'
+        name: 'informatic'
       },
       {
         id_type: uuidv4(),
-        name: 'Pet-Shop'
+        name: 'pet-Shop'
       },
       {
         id_type: uuidv4(),
-        name: 'Tv'
+        name: 'tv'
       },
       {
         id_type: uuidv4(),
-        name: 'Domestic-utility'
+        name: 'domestic-utility'
       },
       {
         id_type: uuidv4(),
-        name: 'Smartphones'
+        name: 'smartphones'
       }
     ])
 };
