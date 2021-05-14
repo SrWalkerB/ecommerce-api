@@ -41,7 +41,7 @@ export default new class UserServices {
     const searchMail = await UserData.searchEmail(email)
 
     if (searchMail.length === 0) {
-      return { err: 'account not found' }
+      return { message: 'account not found' }
     }
 
     const [{ id_user: idUser, password: passwordHash }] = searchMail!
@@ -49,12 +49,12 @@ export default new class UserServices {
     const verify = bcrypt.compareSync(password, passwordHash)
 
     if (!verify) {
-      return { err: 'accout not found' }
+      return { message: 'accout not found' }
     }
 
     const token = TokenOptions.createToken(idUser)
 
-    return { token: token }
+    return { message: token }
   }
 
   async myProfile (token: string) {
@@ -62,7 +62,7 @@ export default new class UserServices {
     const searchUser = await UserData.searchId(id)
 
     if (searchUser.length === 0) {
-      return { err: 'user not found' }
+      return { message: 'user not found' }
     }
 
     const [{ id_user: idUser, email, type }] = searchUser
@@ -140,7 +140,7 @@ export default new class UserServices {
       }
     }
 
-    return { msg: user }
+    return { message: 'success', body: [user] }
   }
 
   async createAddress (token: string, data: ICreateAddressServices) {
@@ -148,10 +148,10 @@ export default new class UserServices {
     const searchAddress = await AddressData.searchAddress(id)
 
     if (searchAddress.length !== 0) {
-      return { err: 'address already create' }
+      return { message: 'address already create' }
     }
 
-    await AddressData.createAddress({
+    const address = {
       id: id,
       cep: data.cep,
       street: data.street,
@@ -160,9 +160,20 @@ export default new class UserServices {
       city: data.city,
       state: data.state,
       coutry: data.coutry
+    }
+
+    await AddressData.createAddress({
+      id: address.id,
+      cep: address.cep,
+      street: address.street,
+      number: address.number,
+      neighborhood: address.neighborhood,
+      city: address.city,
+      state: address.state,
+      coutry: address.coutry
     })
 
-    return { msg: 'adding address' }
+    return { message: 'success', body: [address] }
   }
 
   async deleteUser (token: string) {
@@ -170,11 +181,11 @@ export default new class UserServices {
     const searchUser = await UserData.searchId(id)
 
     if (searchUser.length === 0) {
-      return { err: 'user not found' }
+      return { message: 'user not found' }
     }
 
     await UserData.deleteUserId(id)
 
-    return { msg: 'delete User' }
+    return { message: 'success' }
   }
 }()
