@@ -29,21 +29,21 @@ export default new class ProductServices {
       })
     }
 
-    return { msg: products }
+    return { message: products }
   }
 
   async createProducts (token: string, data: ICreateProductServices) {
     const searchCompany = await CompanyServices.searchCompany(token)
 
     if (searchCompany.err) {
-      return { err: searchCompany.err }
+      return { message: searchCompany.err }
     }
 
     const id = searchCompany.msg
     const searchProduct = await ProductData.searchProductName(id, data.name)
 
     if (searchProduct.length !== 0) {
-      return { err: 'product already create' }
+      return { message: 'product already create' }
     }
 
     const product = {
@@ -68,7 +68,7 @@ export default new class ProductServices {
       price: product.price
     })
 
-    return { msg: product }
+    return { message: 'success', body: [product] }
   }
 
   async updateProduct (token: string, data: IUpdateProductServices) {
@@ -76,7 +76,7 @@ export default new class ProductServices {
     const searchProduct = await ProductData.searchProduct(data.idProduct, id)
 
     if (searchProduct.length === 0) {
-      return { err: 'produt not exist' }
+      return { message: 'produt not exist' }
     }
 
     const product = {
@@ -101,7 +101,7 @@ export default new class ProductServices {
       image: product.image
     })
 
-    return { msg: product }
+    return { message: 'success', body: product }
   }
 
   async deleteProduct (token: string, idProduct: string) {
@@ -109,11 +109,11 @@ export default new class ProductServices {
     const searchProduct = await ProductData.searchProduct(idProduct, id)
 
     if (searchProduct.length === 0) {
-      return { err: 'produt not exist' }
+      return { message: 'product not exist' }
     }
 
     await ProductData.deleteProduct(idProduct, id)
 
-    return { msg: 'product delete' }
+    return { message: 'success' }
   }
 }()
