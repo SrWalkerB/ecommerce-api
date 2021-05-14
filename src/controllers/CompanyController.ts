@@ -15,14 +15,14 @@ export default new class CompanyController {
         password
       })
 
-      if (create.err) {
-        return resp.status(400).json({ err: create.err })
+      if (create.message !== 'success') {
+        return resp.status(400).json({ message: create.message })
       }
 
-      return resp.status(201).json({ msg: create.msg })
+      return resp.status(201).json(create)
     } catch (error) {
       console.log(error)
-      return resp.status(500).json({ err: 'Err not expect' })
+      return resp.status(500).json({ message: 'Err not expect' })
     }
   }
 
